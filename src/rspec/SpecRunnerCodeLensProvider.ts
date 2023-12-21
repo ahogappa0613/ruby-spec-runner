@@ -1,4 +1,4 @@
-import { CodeLens, CodeLensProvider, Event, ProviderResult, TextDocument } from 'vscode';
+import { CodeLens, CodeLensProvider, Event, ProviderResult, TextDocument, workspace } from 'vscode';
 import { SpecParser } from './SpecParser';
 import SpecRunnerConfig from '../SpecRunnerConfig';
 import { RunRspecOrMinitestArg } from '../types';
@@ -23,7 +23,7 @@ export class SpecRunnerCodeLensProvider implements CodeLensProvider {
 
     specRegions.forEach(specRegion => {
       const args: RunRspecOrMinitestArg = {
-        fileName: document.fileName,
+        fileName: workspace.asRelativePath(document.fileName, false), // ここ
         name: specRegion.name,
         line: specRegion.range.start.line + 1
       };
